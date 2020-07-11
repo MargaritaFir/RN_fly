@@ -11,13 +11,13 @@ function LoginScreen(props) {
     const image = "https://img1.fonwall.ru/o/en/eagle-black-beak-front-view.jpeg?route=mid&h=750";
 
 
-    const { navigation } = props
+    const { navigation } = props;
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Login Screen</Text>
         <Button
           title="Go to Details"
-          onPress={() => navigation.navigate('Details')}
+          onPress={() => navigation.navigate('DetailsList')}
         />
         <Image 
         style={{ width: 50, height: 50}} 

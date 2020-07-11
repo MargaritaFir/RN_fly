@@ -5,7 +5,7 @@ import IconLogout from './IconLogout';
 
 
 
-function LogOutButton(props) {
+function LogOutButton() {
 
 const [count, getCount] = useState(0);
 

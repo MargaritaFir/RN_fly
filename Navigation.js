@@ -1,27 +1,28 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from 'react-navigation-stack';
 import LoginScreen from './screens/LoginScreen';
 import DetailsScreen from './screens/DetailsScreen';
-import LogOutButton from './components/LogOutButton'
 
-const Stack = createStackNavigator();
+import { createAppContainer } from 'react-navigation';
 
-
-function Navigation() {
-
-    return (
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName="Login">        
-                <Stack.Screen name="Login" component={LoginScreen} />
-                <Stack.Screen name="Details" component={DetailsScreen} options={({ navigation, route }) => ({
-                headerRight: props => <LogOutButton {...props} />,
-                headerTitle: null,
-          })}  />
-            </Stack.Navigator>
-        </NavigationContainer>
-    )
-
-}
-
-export default Navigation;
+const Stack = createStackNavigator({
+    LoginList: {
+        screen: LoginScreen,
+        navigationOptions: {
+            title: 'Login'
+        }
+    },
+    DetailsList: {
+        screen: DetailsScreen,
+        navigationOptions: ({ navigation }) => {
+            return {
+                title: 'Fly'
+            };
+        }
+    }
+ },
+ {
+    initialRouteName: 'LoginList'
+ });
+  
+ export default createAppContainer(Stack);
