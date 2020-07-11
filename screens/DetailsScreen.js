@@ -1,7 +1,14 @@
 import React, {Fragment, useEffect, useState} from 'react';
-import {Button, StyleSheet, Text, View, ScrollView, ActivityIndicator } from 'react-native';
+import {StyleSheet, View, ScrollView, ActivityIndicator, Text } from 'react-native';
+import { Container} from 'native-base';
+import Card from '../components/Card';
+import DatePickerFly from '../components/DataPicker';
+
 import axios from 'axios';
-import LogOutButton from '../components/LogOutButton'
+
+import Slider from '../components/Slider'
+
+
 
 const CURRENCY = 'RUB';
 const COUNTRY ='RU';
@@ -65,23 +72,30 @@ function DetailsScreen(props) {
     const { navigation } = props;
     return (
 
-        <Fragment>
-            <View>
-                <LogOutButton/>
+        <Container>
+            <View style={{flexDirection: "row", justifyContent: "space-between", padding:10}}>
+                <View >
+                    <Text style={{fontWeight: "bold", fontSize:18}}>Вылеты &#10095;  SVO - JFK</Text>
+                </View>
+                <DatePickerFly />
             </View>
-
-            <ScrollView>
-          {(!isloading) ? routes.Quotes.map((item, index) => <View key={index} style={{height:30, width:100, backgroundColor:'#ff7438'}}>
-          <Text>{item.MinPrice}</Text> 
-          </View>) : (
-          <View style={styles.loaderContainer}>
-              <ActivityIndicator size="small" style={styles.loader} />
-          </View>
-  )}
-
-        </ScrollView>
-        </Fragment>
-
+            <Container  style={{flex: 1}}>
+                    <Slider/>
+            </Container>
+            <Container style={{flex: 3}}>
+                <View style={{padding: 10}}>
+                   <Text style={{fontWeight: "bold", fontSize:14}}>Добавлено в Избранное: 10 рейсов</Text>
+                </View>
+           
+                <ScrollView >
+                    {(!isloading) ? routes.Quotes.map((item, index) => <Card key={index}  {...item}/>) : (
+                        <View style={styles.loaderContainer}>
+                            <ActivityIndicator size="small" style={styles.loader} />
+                        </View>
+                    )}
+                </ScrollView>
+            </Container> 
+        </Container>
        
     );
   }

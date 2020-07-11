@@ -17,7 +17,7 @@ function counting(){
     return (
 
         <TouchableOpacity style={styles.icon_contaiter} onPress={() => counting()}>
-            <Text style={{paddingRight: 10}}>Выйти</Text>
+            <Text style={{paddingRight: 10, color: '#1157A7', fontWeight:'bold'}}>Выйти</Text>
             <IconLogout />
 
         </TouchableOpacity>
@@ -30,7 +30,8 @@ function counting(){
 
 const styles = StyleSheet.create({
     icon_contaiter: {
-        flexDirection: "row"
+        flexDirection: "row",
+        padding:10
         
     }
 })

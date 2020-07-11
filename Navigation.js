@@ -4,19 +4,22 @@ import LoginScreen from './screens/LoginScreen';
 import DetailsScreen from './screens/DetailsScreen';
 
 import { createAppContainer } from 'react-navigation';
+import LogOutButton from './components/LogOutButton'
 
 const Stack = createStackNavigator({
     LoginList: {
         screen: LoginScreen,
         navigationOptions: {
             title: 'Login'
+            
         }
     },
     DetailsList: {
         screen: DetailsScreen,
         navigationOptions: ({ navigation }) => {
             return {
-                title: 'Fly'
+                title: 'Fly',
+                headerRight: () => <LogOutButton/>
             };
         }
     }

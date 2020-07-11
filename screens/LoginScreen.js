@@ -1,7 +1,8 @@
 import React from 'react';
-import {Button, StyleSheet, Text, View, Image} from 'react-native';
+import {Button, StyleSheet, Text, View, Image, ImageBackground} from 'react-native';
+import { Container, Header, Content, Form, Item, Input } from 'native-base';
 import {Thumbnail} from 'native-base';
-import fav from '../assets/favicon.png'
+import clouds from '../assets/clouds.png';
 
 
 
@@ -13,18 +14,49 @@ function LoginScreen(props) {
 
     const { navigation } = props;
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Login Screen</Text>
-        <Button
-          title="Go to Details"
-          onPress={() => navigation.navigate('DetailsList')}
+      <View style={styles.container}>
+        <ImageBackground source={clouds} style={styles.image}>
+        <View style={{backgroundColor: "rgba(255, 255, 255, 0.6)", width: '100%', height: '100%', justifyContent: "center",alignItems: "center",}}>
+
+          <Form style={{height:100, width:200, backgroundColor: 'white'}}>
+            <Item>
+              <Input placeholder="Username" />
+            </Item>
+            <Item last>
+              <Input placeholder="Password" />
+            </Item>
+
+          </Form>
+
+          <Button
+            title="Go to Details"
+            onPress={() => navigation.navigate('DetailsList')}
         />
-        <Image 
-        style={{ width: 50, height: 50}} 
-        source={fav} ></Image>
+        </View>
+
+        </ImageBackground>
       </View>
     );
   }
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      flexDirection: "column",
+    },
+    image: {
+      flex: 1,
+      resizeMode: "cover",
+      justifyContent: "center",
+      alignItems: "center",
+
+    },
+    text: {
+      color: "grey",
+      fontSize: 30,
+      fontWeight: "bold"
+    }
+  });
+  
 
   export default LoginScreen;
