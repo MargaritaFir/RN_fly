@@ -1,8 +1,10 @@
 import React from 'react';
 import {Button, StyleSheet, Text, View, Image, ImageBackground} from 'react-native';
-import { Container, Header, Content, Form, Item, Input } from 'native-base';
+// import { Container, Header, Content, Form, Item, Input , Label} from 'native-base';
 import {Thumbnail} from 'native-base';
 import clouds from '../assets/clouds.png';
+import LoginForm from '../components/LoginForm'
+
 
 
 
@@ -16,22 +18,26 @@ function LoginScreen(props) {
     return (
       <View style={styles.container}>
         <ImageBackground source={clouds} style={styles.image}>
-        <View style={{backgroundColor: "rgba(255, 255, 255, 0.6)", width: '100%', height: '100%', justifyContent: "center",alignItems: "center",}}>
+        <View style={{backgroundColor: "rgba(255, 255, 255, 0.6)", width: '100%', height: '100%', justifyContent: "center",alignItems: "center"}}>
 
-          <Form style={{height:100, width:200, backgroundColor: 'white'}}>
-            <Item>
-              <Input placeholder="Username" />
-            </Item>
-            <Item last>
-              <Input placeholder="Password" />
-            </Item>
-
-          </Form>
-
-          <Button
+      <View style={{backgroundColor: "white", width: 250, height: 300, justifyContent: "center",alignItems: "center"}} >
+        <LoginForm {...props}/>
+        <View style={{width: '100%'}}>
+        {/* <Button
             title="Go to Details"
             onPress={() => navigation.navigate('DetailsList')}
-        />
+        /> */}
+        </View>
+        
+      </View>
+
+          {/* <Button
+            title="Go to Details"
+            onPress={() => navigation.navigate('DetailsList')}
+        /> */}
+
+
+
         </View>
 
         </ImageBackground>
