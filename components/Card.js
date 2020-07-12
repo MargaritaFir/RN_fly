@@ -1,13 +1,11 @@
 import React from 'react';
-import {StyleSheet, View, ScrollView, ActivityIndicator } from 'react-native';
-import { Container, Header, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
-import plane from '../assets/plane.png'
+import {StyleSheet, View} from 'react-native';
+import {List, ListItem, Text, Left, Body, Right,} from 'native-base';
 import PlaneSVG from '../components/PlaneSVG';
 import HeartSVG from '../components/HeartSVG';
 import {changeFormatDate} from '../shared/sharedFunctions'
 
 function Card(props) {
-    console.log('props',props)
     const minPrice=props.MinPrice;
     const dataFly = changeFormatDate(props.OutboundLeg.DepartureDate.split('T')[0]);
 
@@ -19,21 +17,20 @@ function Card(props) {
           <List>
             <ListItem avatar>
               <Left>
-                  <View style={styles.icon_container}>
+                <View style={styles.icon_container}>
                   <PlaneSVG/>
                 </View>
-                
               </Left>
-              <Body  >
+
+              <Body>
                 <Text style={styles.body_header}>Moscow (SVO) <Text note> &#10230; </Text> New York (JFK)</Text>
                 <Text note>{dataFly} - {boundTime}</Text>
                 <Text note>Аэрофлот</Text>
               </Body>
+
               <Right>
                 <HeartSVG/>
-                <Text note style={styles.container_price}> <Text note style={{fontSize: 10}}>Price: </Text>{minPrice} &#8381;</Text>
-                
-                
+                <Text note style={styles.container_price}> <Text note style={{fontSize: 10}}>Price: </Text>{minPrice} &#8381;</Text>  
               </Right>
             </ListItem>
           </List>
@@ -60,8 +57,6 @@ function Card(props) {
         fontSize: 14,
         color: 'black',
         fontWeight: 'bold'
-
-
     }
   })
 

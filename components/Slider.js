@@ -1,16 +1,10 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React from 'react';
 import img_1 from '../assets/img_1.png';
 import img_2 from '../assets/img_2.png';
 import img_3 from '../assets/img_3.png';
 
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View, Image
-  } from 'react-native';
-   
-  import Slick from 'react-native-slick';
+import {StyleSheet, View, Image} from 'react-native';
+import Slick from 'react-native-slick';
    
   var styles = StyleSheet.create({
     wrapper: {

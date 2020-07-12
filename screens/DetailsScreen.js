@@ -50,16 +50,14 @@ function DetailsScreen(props) {
         axios(config)
             .then(response => {
                 
-                    const dataList = response.data;
-                    let dataOut = dataList.Quotes[0].QuoteDateTime.split('T');
-                    // let dataFrom = changeFormatDate(dataOut[0])
-                    let timeOut = dataOut[1].split(':');
-                    timeOut = `${timeOut[0]}:${timeOut[1]}`
-                    console.log('data', timeOut);
-                    console.log(dataList);
-                    setRoutes(dataList);
-                    onLoaded(false);
-
+                const dataList = response.data;
+                let dataOut = dataList.Quotes[0].QuoteDateTime.split('T');
+                // let dataFrom = changeFormatDate(dataOut[0])
+                let timeOut = dataOut[1].split(':');
+                timeOut = `${timeOut[0]}:${timeOut[1]}`
+                // console.log(dataList);
+                setRoutes(dataList);
+                onLoaded(false);
             })
             .catch((err) => console.error('Ошибка получения', err))
         

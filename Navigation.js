@@ -10,7 +10,7 @@ const Stack = createStackNavigator({
     LoginList: {
         screen: LoginScreen,
         navigationOptions: {
-            title: 'Login'
+            title: 'Home'
             
         }
     },
