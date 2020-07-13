@@ -26,6 +26,13 @@ export function loginSuccess(params){
     }
   }
 
+
+  export function logOut(){
+    return {
+      type: LOG_OUT,
+    }
+  }
+
 export function logIn(params) {
 
   return dispatch => {

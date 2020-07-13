@@ -4,10 +4,9 @@ import {StyleSheet, View, Text, Button , TouchableOpacity} from 'react-native';
 import DataIconSVG from '../components/DataIconSVG';
 import {changeFormatDate} from '../shared/sharedFunctions';
 
-// DateTimePicker - проблема дата меньше на день, не успела решить, как исправить
 
 
-export default function DatePickerFly(){
+export default function DatePickerFly(props){
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
 
@@ -15,6 +14,9 @@ export default function DatePickerFly(){
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
+    const dataSplit = JSON.parse(JSON.stringify(currentDate)).split('T')[0];
+    props.getDateList(dataSplit);
+
   };
   const showMode = () => {
     setShow(true);

@@ -3,19 +3,11 @@ import {StyleSheet, View, ScrollView, ActivityIndicator, Text } from 'react-nati
 import { Container} from 'native-base';
 import Card from '../components/Card';
 import DatePickerFly from '../components/DataPicker';
-import axios from 'axios';
 import Slider from '../components/Slider';
 import { connect } from 'react-redux';
-import {getList} from '../actions/listActions'
+import {getList, getDateList} from '../actions/listActions'
 
 
-
-
-const CURRENCY = 'RUB';
-const COUNTRY ='RU';
-const ORIGIN_PLACE ='SVO';
-const DESTINATION_PLACE = 'JFK';
-const outBoundDate= '2020-08-01';
 
 function DetailsScreen(props) {
     // console.log(props)
@@ -24,47 +16,8 @@ function DetailsScreen(props) {
 
   useEffect(() => {
     console.log('Effect');
+   
     props.getList();
-
-    // function getCollection(){
-    //     const API = "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"
-    //     const KEY = '967ea4cb99mshe3f35d13e38b90cp1519c4jsnc0fd1c9e0c89'    
-    //     // const URL = `https://${API}/apiservices/browseroutes/v1.0/RU/RUB/en-US/SVO-sky/JFK-sky/2020-08-01`;
-    //     const URL = `https://${API}/apiservices/browseroutes/v1.0/${COUNTRY}/${CURRENCY}/en-US/${ORIGIN_PLACE}-sky/${DESTINATION_PLACE}-sky/${outBoundDate}`;
-    //     const headers = {
-    //         "content-type":"application/octet-stream",
-    //         "x-rapidapi-host":API,
-    //         "x-rapidapi-key":KEY,
-    //         "useQueryString":true
-    //         }           
-
-    //     const params = {
-    //         "inboundpartialdate":"2020-08-01",
-    //         "mode": 'no-cors'
-    //         }
-
-    //     const config = {
-    //         method: 'get',
-    //         url: URL,
-    //         headers: headers,
-    //         params: params
-    //     }
-
-    //     axios(config)
-    //         .then(response => {
-                
-    //             const dataList = response.data;
-    //             let dataOut = dataList.Quotes[0].QuoteDateTime.split('T');
-    //             // let dataFrom = changeFormatDate(dataOut[0])
-    //             let timeOut = dataOut[1].split(':');
-    //             timeOut = `${timeOut[0]}:${timeOut[1]}`
-    //             // console.log(dataList);
-    //             setRoutes(dataList);
-    //             onLoaded(false);
-    //         })
-    //         .catch((err) => console.error('Ошибка получения', err))
-        
-    //         }
    
 }, []);
 
@@ -77,18 +30,27 @@ function DetailsScreen(props) {
                 <View >
                     <Text style={{fontWeight: "bold", fontSize:18}}>Вылеты &#10095;  SVO - JFK</Text>
                 </View>
-                <DatePickerFly />
+                <DatePickerFly {...props} />
             </View>
             <Container  style={{flex: 1}}>
                     <Slider/>
             </Container>
             <Container style={{flex: 3}}>
+
                 <View style={{padding: 10}}>
-                   <Text style={{fontWeight: "bold", fontSize:14}}>Добавлено в Избранное: 10 рейсов</Text>
-                </View>
-           
+                    <Text style={{fontWeight: "bold", fontSize:14}}>Добавлено в Избранное: 10 рейсов</Text>
+                </View> 
+          
                 <ScrollView >
-                    {(!props.loading) ? props.dataList.Quotes.map((item, index) => <Card key={index}  {...item}/>) : (
+                    {(!props.loading) ? ((props.dataList.length)?
+                                      
+                    props.dataList.map((item, index) => <Card key={index}  {...item}/>):
+                    <View style={{width: '100%', alignItems: "center", paddingTop:20}}>
+                    <Text style={{fontSize: 16,fontWeight: "bold", color: '#1157A7'}}> 
+                      {'На выбранную дату рейсов нет'}
+                    </Text>
+                  </View> 
+                    ) : (
                         <View style={styles.loaderContainer}>
                             <ActivityIndicator size="small" style={styles.loader} />
                         </View>
@@ -120,7 +82,8 @@ function DetailsScreen(props) {
   })
   
   const mapDispatchToProps = dispatch => ({
-    getList: () => dispatch(getList())
+    getList: () => dispatch(getList()),
+    getDateList: (data) => dispatch(getDateList(data))
   })
 
   export default connect(mapStateToProps, mapDispatchToProps)(DetailsScreen);

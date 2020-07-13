@@ -1,4 +1,4 @@
-import { GET_LIST } from '../actions/listActions'
+import { GET_LIST, GET_DATE_LIST } from '../actions/listActions'
 
 const initialState = {
      dataList: null,
@@ -13,6 +13,11 @@ const initialState = {
            ...state,
            loading:true,
          }
+        case GET_DATE_LIST:
+          return {
+            ...state,
+            loading:true,
+        }
        case 'LIST_RECEIVED':
          return {
           ...state, 

@@ -2,29 +2,35 @@ import React, {useState} from 'react';
 import {View, StyleSheet, Text, Image, TouchableOpacity  } from 'react-native';
 
 import IconLogout from './IconLogout';
+import { connect } from 'react-redux'
+import { logOut } from '../actions/sessionActions';
 
 
 
-function LogOutButton() {
+function LogOutButton(props) {
 
-const [count, getCount] = useState(0);
 
 function counting(){
-    getCount(count+1);
-    console.log(count)
+    props.logOut();
+    props.navigation.navigate('LoginList');    
 }
 
-    return (
+if(props.isAuth){
 
+    return (
         <TouchableOpacity style={styles.icon_contaiter} onPress={() => counting()}>
             <Text style={{paddingRight: 10, color: '#1157A7', fontWeight:'bold'}}>Выйти</Text>
             <IconLogout />
 
         </TouchableOpacity>
-
-
-
   );
+} else {
+    return <View style={styles.icon_contaiter}></View>
+}
+
+
+
+
 }
 
 
@@ -34,8 +40,15 @@ const styles = StyleSheet.create({
         padding:10
         
     }
-})
+});
+
+const mapStateToProps = state => ({
+    isAuth: state.session.isAuth,
+  })
 
 
+const mapDispatchToProps = dispatch => ({
+    logOut: () => dispatch(logOut())
+  })
 
-export default LogOutButton;
+export default connect(mapStateToProps, mapDispatchToProps)(LogOutButton);
