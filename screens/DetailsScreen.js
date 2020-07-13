@@ -3,10 +3,11 @@ import {StyleSheet, View, ScrollView, ActivityIndicator, Text } from 'react-nati
 import { Container} from 'native-base';
 import Card from '../components/Card';
 import DatePickerFly from '../components/DataPicker';
-
 import axios from 'axios';
+import Slider from '../components/Slider';
+import { connect } from 'react-redux';
+import {getList} from '../actions/listActions'
 
-import Slider from '../components/Slider'
 
 
 
@@ -17,53 +18,54 @@ const DESTINATION_PLACE = 'JFK';
 const outBoundDate= '2020-08-01';
 
 function DetailsScreen(props) {
-
-  const [isloading, onLoaded] =useState(true)
-  const [routes, setRoutes] = useState([]);
+    // console.log(props)
+//   const [isloading, onLoaded] =useState(true)
+//   const [routes, setRoutes] = useState([]);
 
   useEffect(() => {
-    console.log('Effect')
-    function getCollection(){
-        const API = "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"
-        const KEY = '967ea4cb99mshe3f35d13e38b90cp1519c4jsnc0fd1c9e0c89'    
-        // const URL = `https://${API}/apiservices/browseroutes/v1.0/RU/RUB/en-US/SVO-sky/JFK-sky/2020-08-01`;
-        const URL = `https://${API}/apiservices/browseroutes/v1.0/${COUNTRY}/${CURRENCY}/en-US/${ORIGIN_PLACE}-sky/${DESTINATION_PLACE}-sky/${outBoundDate}`;
-        const headers = {
-            "content-type":"application/octet-stream",
-            "x-rapidapi-host":API,
-            "x-rapidapi-key":KEY,
-            "useQueryString":true
-            }           
+    console.log('Effect');
+    props.getList();
 
-        const params = {
-            "inboundpartialdate":"2020-08-01",
-            "mode": 'no-cors'
-            }
+    // function getCollection(){
+    //     const API = "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"
+    //     const KEY = '967ea4cb99mshe3f35d13e38b90cp1519c4jsnc0fd1c9e0c89'    
+    //     // const URL = `https://${API}/apiservices/browseroutes/v1.0/RU/RUB/en-US/SVO-sky/JFK-sky/2020-08-01`;
+    //     const URL = `https://${API}/apiservices/browseroutes/v1.0/${COUNTRY}/${CURRENCY}/en-US/${ORIGIN_PLACE}-sky/${DESTINATION_PLACE}-sky/${outBoundDate}`;
+    //     const headers = {
+    //         "content-type":"application/octet-stream",
+    //         "x-rapidapi-host":API,
+    //         "x-rapidapi-key":KEY,
+    //         "useQueryString":true
+    //         }           
 
-        const config = {
-            method: 'get',
-            url: URL,
-            headers: headers,
-            params: params
-        }
+    //     const params = {
+    //         "inboundpartialdate":"2020-08-01",
+    //         "mode": 'no-cors'
+    //         }
 
-        axios(config)
-            .then(response => {
+    //     const config = {
+    //         method: 'get',
+    //         url: URL,
+    //         headers: headers,
+    //         params: params
+    //     }
+
+    //     axios(config)
+    //         .then(response => {
                 
-                const dataList = response.data;
-                let dataOut = dataList.Quotes[0].QuoteDateTime.split('T');
-                // let dataFrom = changeFormatDate(dataOut[0])
-                let timeOut = dataOut[1].split(':');
-                timeOut = `${timeOut[0]}:${timeOut[1]}`
-                // console.log(dataList);
-                setRoutes(dataList);
-                onLoaded(false);
-            })
-            .catch((err) => console.error('Ошибка получения', err))
+    //             const dataList = response.data;
+    //             let dataOut = dataList.Quotes[0].QuoteDateTime.split('T');
+    //             // let dataFrom = changeFormatDate(dataOut[0])
+    //             let timeOut = dataOut[1].split(':');
+    //             timeOut = `${timeOut[0]}:${timeOut[1]}`
+    //             // console.log(dataList);
+    //             setRoutes(dataList);
+    //             onLoaded(false);
+    //         })
+    //         .catch((err) => console.error('Ошибка получения', err))
         
-            }
+    //         }
    
-    getCollection();
 }, []);
 
 
@@ -86,7 +88,7 @@ function DetailsScreen(props) {
                 </View>
            
                 <ScrollView >
-                    {(!isloading) ? routes.Quotes.map((item, index) => <Card key={index}  {...item}/>) : (
+                    {(!props.loading) ? props.dataList.Quotes.map((item, index) => <Card key={index}  {...item}/>) : (
                         <View style={styles.loaderContainer}>
                             <ActivityIndicator size="small" style={styles.loader} />
                         </View>
@@ -110,4 +112,15 @@ function DetailsScreen(props) {
     }
  })
 
-  export default DetailsScreen;
+ const mapStateToProps = state => ({
+    errorMessage: state.session.errorMessage,
+    user: state.session.user,
+    dataList: state.list.dataList,
+    loading: state.list.loading
+  })
+  
+  const mapDispatchToProps = dispatch => ({
+    getList: () => dispatch(getList())
+  })
+
+  export default connect(mapStateToProps, mapDispatchToProps)(DetailsScreen);

@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import { StyleSheet, Text, View} from "react-native";
 import { Container, Form, Input, Label, Item, Header, Button} from 'native-base';
-const colorBorderError = '#EB1717';
 
 // нет стилей для состояний кнопки active, hover
 // знаю, что нужно разнести всё на компоненты. Например сделать собственный блок для инпутов;
@@ -21,6 +20,8 @@ const LoginForm = (props) => {
 const { navigation } = props;
 const [isValidLogin, onValidLogin] = useState(false);
 const [isValidPassword, onValidPassword] = useState(false);
+const [userLogin, updateLogin] = useState('');
+const [userPassword, updatePassword] = useState('');
 
 
 let loginRef= useRef();
@@ -29,11 +30,11 @@ let passwordRef = useRef()
 function doValidLogin(e){
     e.preventDefault();
     const loginValueNew = e.nativeEvent.text;
-    const regExp = '(?=^.{6,}$)'
-    console.log(loginValueNew);
+    const regExp = '(?=^.{6,}$)';
 
     if(loginValueNew.match(regExp)){
-        onValidLogin(true)
+        onValidLogin(true);
+        updateLogin(loginValueNew)
     } else{
         onValidLogin(false)
     }
@@ -42,19 +43,25 @@ function doValidLogin(e){
 
 function doValidPassword(e){
     e.preventDefault();
-    const loginValueNew = e.nativeEvent.text;
+    const passwordValueNew = e.nativeEvent.text;
     const regExp= '(?=^.{8,}$)'
 
-    if(loginValueNew.match(regExp)){
-        onValidPassword(true)
+    if(passwordValueNew.match(regExp)){
+        onValidPassword(true);
+        updatePassword(passwordValueNew)
     } else{
         onValidPassword(false)
     }
 
 }
 
-function userLogin(){
+function logInUser(){
     if(isValidPassword && isValidLogin){
+        const params={
+            userName: userLogin,
+            password: userPassword
+        };
+        props.loginSuccess(params);
         navigation.navigate('DetailsList')
     }
 }
@@ -99,7 +106,7 @@ const errorPassword = (isValidPassword)?'black': '#EB1717';
                     borderRadius={5}
                     height={30}
                     boxShadow='0px 0px 2px rgba(0, 0, 0, 0.15)'
-                    onPress={userLogin}   
+                    onPress={logInUser}   
                 >
                     <Text style={{ color:'white', fontSize:16}}>Войти</Text>
                 </Button>
@@ -135,5 +142,10 @@ const styles = StyleSheet.create({
     paddingBottom:10
   }
 });
+
+
+  
+
+  
 
 export default LoginForm;

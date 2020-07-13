@@ -11,12 +11,10 @@ export default function DatePickerFly(){
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
 
-  const onChange = (event, selectedDate) => {
+  const onChange = (e, selectedDate) => {
     const currentDate = selectedDate || date;
-    console.log('selected', selectedDate)
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
-    console.log(date)
   };
   const showMode = () => {
     setShow(true);

@@ -1,11 +1,12 @@
 import React from 'react';
 import {StyleSheet, View, ImageBackground} from 'react-native';
 import clouds from '../assets/clouds.png';
-import LoginForm from '../components/LoginForm'
+import LoginForm from '../components/LoginForm';
+import { connect } from 'react-redux'
+import { loginSuccess } from '../actions/sessionActions'
 
 
 function LoginScreen(props) {
-
     return (
         <View style={styles.container}>
           <ImageBackground source={clouds} style={styles.image}>
@@ -39,4 +40,14 @@ function LoginScreen(props) {
   });
   
 
-  export default LoginScreen;
+  const mapStateToProps = state => ({
+    errorMessage: state.session.errorMessage,
+    user: state.session.user,
+    dataList: state.list.dataList,
+  })
+  
+  const mapDispatchToProps = dispatch => ({
+    loginSuccess: (params) => dispatch(loginSuccess(params)),
+  })
+
+  export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

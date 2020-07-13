@@ -1,22 +1,28 @@
 
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Container, Header, Left, Body, Right, Button, Title, Text, Icon } from 'native-base';
 import Navigation from './Navigation';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import reducer from './reducers/index';
+import rootSaga from './sagas/index';
+
+const sagaMiddleware = createSagaMiddleware();
+
+const store = createStore(reducer, applyMiddleware(sagaMiddleware))
+
+sagaMiddleware.run(rootSaga);
 
 
+console.log(store.getState())
 
 export default function App() {
+
   return (
-      <Navigation/>
+    <Provider store={store}>
+            <Navigation/>
+    </Provider>
+
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
